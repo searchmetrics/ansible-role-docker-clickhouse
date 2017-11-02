@@ -1,0 +1,20 @@
+galaxy_info:
+  author: Jens Schröder (Searchmetrics GmbH)
+  description: Role to run a ClickHouse Server docker container
+
+  license: MIT
+
+  min_ansible_version: 2.0
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - trusty
+
+  galaxy_tags:
+    - clickhouse
+    - database
+    - docker
+
+dependencies: []
