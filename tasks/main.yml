@@ -1,0 +1,7 @@
+---
+
+- name: Start ClickHouse Server Docker container
+  docker_container:
+    name: clickhouse
+    image: yandex/clickhouse-server
+    state: started
