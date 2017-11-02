@@ -10,9 +10,6 @@ matrix:
     - os: linux
       dist: xenial
       sudo: true
-    - os: linux
-      dist: precise
-      sudo: true
 
 # Use the new container infrastructure
 sudo: true
