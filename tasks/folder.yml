@@ -1,0 +1,11 @@
+---
+
+- name: Create clickhouse folders on the host system
+  file:
+    path: "{{ item }}"
+    mode: 0777
+    state: directory
+  with_items:
+    - "{{ clickhouse_docker_host_data_folder }}"
+    - "{{ clickhouse_docker_host_config_folder }}"
+    - "{{ clickhouse_docker_host_task_queue_folder }}"

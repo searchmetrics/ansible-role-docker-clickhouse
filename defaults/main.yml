@@ -1,0 +1,22 @@
+---
+# host
+clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data"
+clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config"
+clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue"
+
+# docker
+clickhouse_docker_version: latest
+clickhouse_docker_network_mode: host
+clickhouse_docker_container_name: clickhouse
+clickhouse_docker_bind_mounts:
+  - "{{clickhouse_docker_host_data_folder}}:/var/lib/clickhouse"
+  - "{{clickhouse_docker_host_config_folder}}:/etc/clickhouse-server/conf.d"
+  - "{{clickhouse_docker_host_task_queue_folder}}:/clickhouse/task_queue"
+
+# clickhouse
+clickhouse_docker_listen_host:  0.0.0.0
+clickhouse_docker_http_port:    8123
+clickhouse_docker_tcp_port:     9000
+
+
+

@@ -1,0 +1,9 @@
+---
+
+- name: Start ClickHouse Server Docker container
+  docker_container:
+    name: "{{ clickhouse_docker_container_name }}"
+    image: yandex/clickhouse-server:{{ clickhouse_docker_version }}
+    state: started
+    network_mode: "{{ clickhouse_docker_network_mode }}"
+    volumes: "{{ clickhouse_docker_bind_mounts }}"

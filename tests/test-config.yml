@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_version: 1.1.54304
+    - clickhouse_docker_http_port: 8124
+    - clickhouse_docker_tcp_port: 9001
+  roles:
+    - ansible-role-docker-clickhouse

@@ -1,7 +1,12 @@
 ---
 
-- name: Start ClickHouse Server Docker container
-  docker_container:
-    name: clickhouse
-    image: yandex/clickhouse-server
-    state: started
+- include: folder.yml
+  tags: [clickhouse, folder]
+
+- include: config.yml
+  tags: [clickhouse, config]
+
+- include: docker.yml
+  tags: [clickhouse, docker]
+
+
