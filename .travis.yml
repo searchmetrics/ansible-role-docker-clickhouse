@@ -38,7 +38,7 @@ script:
   - ansible-playbook tests/test.yml
   - echo "SELECT 1" | curl 'http://localhost:8123/' --data-binary @-
   - docker rm -f clickhouse
-  - rm -r /tmp/docker-clickhouse-*
+  - sudo rm -r /tmp/docker-clickhouse-*
 
   #2 test config changes
   - ansible-playbook tests/test-config.yml
@@ -47,7 +47,7 @@ script:
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening http://0.0.0.0:8124'"
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening tcp: 0.0.0.0:9001'"
   - docker rm -f clickhouse
-  - rm -r /tmp/docker-clickhouse-*
+  - sudo rm -r /tmp/docker-clickhouse-*
 
 
 notifications:
