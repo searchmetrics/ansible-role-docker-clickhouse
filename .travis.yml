@@ -49,6 +49,5 @@ script:
   - docker rm -f clickhouse
   - sudo rm -r /tmp/docker-clickhouse-*
 
-
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

@@ -14,9 +14,13 @@ clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_task_queue_folder}}:/clickhouse/task_queue"
 
 # clickhouse
-clickhouse_docker_listen_host:  0.0.0.0
-clickhouse_docker_http_port:    8123
-clickhouse_docker_tcp_port:     9000
+clickhouse_docker_config:
+  - listen_host:  127.0.0.1
+  - http_port:    8123
+  - tcp_port:     9000
 
+clickhouse_docker_config_resharding:
+  - /clickhouse/task_queue
 
-
+clickhouse_docker_config_distributed_ddl:
+  - /clickhouse/task_queue/ddl

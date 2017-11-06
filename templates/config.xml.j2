@@ -1,16 +1,20 @@
 <?xml version="1.0"?>
 <yandex>
 
-    <listen_host replace="1">{{ clickhouse_docker_listen_host }}</listen_host>
-    <http_port replace="1">{{ clickhouse_docker_http_port }}</http_port>
-    <tcp_port replace="1">{{ clickhouse_docker_tcp_port }}</tcp_port>
+{% for item in clickhouse_docker_config %}
+    <{{ item.keys()[0] }} replace="1">{{ item.values()[0] }}</{{ item.keys()[0] }}>
+{% endfor %}
 
     <resharding replace="1">
-        <task_queue_path>/clickhouse/task_queue</task_queue_path>
+{% for item in clickhouse_docker_config_resharding %}
+        <task_queue_path replace="1">{{ item }}</task_queue_path>
+{% endfor %}
     </resharding>
 
     <distributed_ddl replace="1">
-        <path>/clickhouse/task_queue/ddl</path>
+{% for item in clickhouse_docker_config_distributed_ddl %}
+       <path replace="1">{{ item }}</path>
+{% endfor %}
     </distributed_ddl>
 
 </yandex>
