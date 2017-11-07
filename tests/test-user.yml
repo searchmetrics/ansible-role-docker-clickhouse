@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_user_profiles:
+        default:
+          max_memory_usage: 10000000000
+          max_execution_time: 60
+          max_rows_to_read: 1000000000000
+          max_result_rows: 1000000000000
+        readonly:
+          readonly: 1
+    - clickhouse_docker_users:
+        default:
+          password: root
+        my_test_user:
+          password: ""
+  roles:
+    - ansible-role-docker-clickhouse

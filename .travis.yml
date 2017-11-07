@@ -30,13 +30,10 @@ install:
   # Check ansible version
   - ansible --version
 
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
-
 script:
   #1 test default container
   - ansible-playbook tests/test.yml
-  - echo "SELECT 1" | curl 'http://localhost:8123/' --data-binary @-
+  - "echo 'SELECT 1' | curl 'http://localhost:8123/' --data-binary @-"
   - docker rm -f clickhouse
   - sudo rm -r /tmp/docker-clickhouse-*
 
@@ -46,6 +43,13 @@ script:
   - "docker logs clickhouse 2>&1 | grep 'Starting daemon with revision 54304'"
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening http://0.0.0.0:8124'"
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening tcp: 0.0.0.0:9001'"
+  - docker rm -f clickhouse
+  - sudo rm -r /tmp/docker-clickhouse-*
+
+  #3 test configure users
+  - ansible-playbook tests/test-user.yml
+  - "echo 'SELECT 1' | curl 'http://localhost:8123/?password=root' --data-binary @-"
+  - "echo 'SELECT 1' | curl 'http://localhost:8123/?user=root&password=root' --data-binary @-"
   - docker rm -f clickhouse
   - sudo rm -r /tmp/docker-clickhouse-*
 

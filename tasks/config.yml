@@ -1,6 +1,5 @@
 ---
 
-
 - name: Create ClickHouse custom config.xml
   tags: [clickhouse, config]
   template:

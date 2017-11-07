@@ -1,0 +1,8 @@
+---
+
+- name: Create ClickHouse custom user profile config
+  tags: [clickhouse, config, users]
+  template:
+    src: users.xml.j2
+    dest: "{{ clickhouse_docker_host_config_folder }}/users.xml"
+    mode: 0644
