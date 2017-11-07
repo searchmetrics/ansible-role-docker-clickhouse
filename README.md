@@ -74,7 +74,7 @@ Single server with custom config:
 - changed ClickHouse server version
 - changed HTTP & TCP ports
 - changed listen_host (bind address)
-```
+```yml
 - hosts: localhost
   become: yes
   vars:
