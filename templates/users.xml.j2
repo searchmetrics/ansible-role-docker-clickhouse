@@ -22,20 +22,25 @@
 
         <{{ user }} replace="1">
 {% for key, value in clickhouse_docker_users[user].iteritems() %}
+{% if key != 'networks' %}
             <{{ key }}>{{ value }}</{{ key }}>
-{% endfor %}
-{% if user.networks is not defined %}
-            <networks incl="networks" replace="replace">
-                <ip>::/0</ip>
-            </networks>
 {% endif %}
-{% if user.profile is not defined %}
+{% endfor %}
+            <networks incl="networks" replace="replace">
+{% if clickhouse_docker_users[user]['networks'] is not defined %}
+                <ip>::/0</ip>
+{% else %}
+{% for value in clickhouse_docker_users[user]['networks'] %}
+                {{ value }}
+{% endfor %}
+{% endif %}
+            </networks>
+{% if clickhouse_docker_users[user]['profile'] is not defined %}
             <profile>default</profile>
 {% endif %}
-{% if user.quota is not defined %}
+{% if clickhouse_docker_users[user]['quota'] is not defined %}
             <quota>default</quota>
 {% endif %}
-
         </{{ user }}>
 {% endfor %}
     </users>

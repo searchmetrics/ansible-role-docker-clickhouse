@@ -16,5 +16,10 @@
         ro_user:
           password: ""
           profile: readonly
+          networks:
+            - "<ip>::1</ip>"
+            - "<ip>127.0.0.1</ip>"
+            - "<host>localhost</host>"
+
   roles:
     - ansible-role-docker-clickhouse
