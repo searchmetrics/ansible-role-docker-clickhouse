@@ -13,7 +13,8 @@
     - clickhouse_docker_users:
         default:
           password: root
-        my_test_user:
+        ro_user:
           password: ""
+          profile: readonly
   roles:
     - ansible-role-docker-clickhouse

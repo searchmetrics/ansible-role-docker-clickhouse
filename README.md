@@ -62,7 +62,7 @@ clickhouse_docker_user_profiles:
 ```
 
 ## Example Playbook
-Single server with default config:
+Server with default config:
 ```yml
 - hosts: localhost
   become: yes
@@ -70,7 +70,7 @@ Single server with default config:
     - ansible-role-docker-clickhouse
 ```
 
-Single server with custom config:
+Server with custom config:
 - changed ClickHouse server version
 - changed HTTP & TCP ports
 - changed listen_host (bind address)
@@ -83,6 +83,30 @@ Single server with custom config:
         http_port:    8124
         tcp_port:     9001
         listen_host:  0.0.0.0
+  roles:
+    - ansible-role-docker-clickhouse
+```
+
+Server with custom users & profiles:
+- set password for default user
+```yml
+- hosts: localhost
+  become: yes
+  vars:
+    - clickhouse_docker_user_profiles:
+        default:
+          max_memory_usage:     10000000000
+          max_execution_time:   60
+          max_rows_to_read:     1000000000
+          max_result_rows:      1000000000
+        readonly:
+          readonly: 1
+    - clickhouse_docker_users:
+        default:
+          password: root
+        ro_user:
+          password: ""
+          profile: readonly
   roles:
     - ansible-role-docker-clickhouse
 ```
