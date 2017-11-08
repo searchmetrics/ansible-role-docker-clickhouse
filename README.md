@@ -41,14 +41,15 @@ clickhouse_docker_config_distributed_ddl:
   - /clickhouse/task_queue/ddl
 ```  
   
-clickhouser user profiles  
+clickhouser user profiles
 ```yml
-  
-# user defaults:
+# ------------------------ 
+# default user settings:
 #   networks: 
 #       - <ip>::/0</ip>
 #   profile: default
-#   quota: default
+#   quota:   default
+# ------------------------
 clickhouse_docker_users:
   default:
     password: test
