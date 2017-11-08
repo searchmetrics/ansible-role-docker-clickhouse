@@ -1,0 +1,9 @@
+---
+
+- name: Create ClickHouse custom config.xml
+  tags: [clickhouse, config]
+  template:
+    src: config.xml.j2
+    dest: "{{ clickhouse_docker_host_config_folder }}/config.xml"
+    mode: 0644
+

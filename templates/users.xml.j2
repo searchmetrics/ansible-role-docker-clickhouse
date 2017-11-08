@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<yandex>
+
+{% if clickhouse_docker_user_profiles is defined and clickhouse_docker_user_profiles != None %}
+    <!-- Profiles of settings. -->
+    <profiles>
+{% for profile in clickhouse_docker_user_profiles %}
+        <{{ profile }} replace="1">
+{% for key, value in clickhouse_docker_user_profiles[profile].iteritems() %}
+            <{{ key }}>{{ value }}</{{ key }}>
+{% endfor %}
+        </{{ profile }}>
+{% endfor %}
+   </profiles>
+
+{% endif %}
+
+{% if clickhouse_docker_users is defined and clickhouse_docker_users != None %}
+    <!-- Users and ACL. -->
+    <users>
+{% for user in clickhouse_docker_users %}
+
+        <{{ user }} replace="1">
+{% for key, value in clickhouse_docker_users[user].iteritems() %}
+            <{{ key }}>{{ value }}</{{ key }}>
+{% endfor %}
+{% if user.networks is not defined %}
+            <networks incl="networks" replace="replace">
+                <ip>::/0</ip>
+            </networks>
+{% endif %}
+{% if user.profile is not defined %}
+            <profile>default</profile>
+{% endif %}
+{% if user.quota is not defined %}
+            <quota>default</quota>
+{% endif %}
+
+        </{{ user }}>
+{% endfor %}
+    </users>
+{% endif %}
+
+</yandex>
