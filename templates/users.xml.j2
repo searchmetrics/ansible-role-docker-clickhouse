@@ -15,6 +15,25 @@
 
 {% endif %}
 
+{% if clickhouse_docker_user_quotas is defined and clickhouse_docker_users != None %}
+    <!-- Quotas. -->
+    <quotas>
+{% for quota in clickhouse_docker_user_quotas %}
+        <{{ quota }} replace="1">
+{% for key, value in clickhouse_docker_user_quotas[quota].iteritems() %}
+            <{{ key }}>{{ value }}</{{ key }}>
+{% endfor %}
+
+{% for key, value in clickhouse_docker_user_quota_defaults.iteritems() %}
+{% if clickhouse_docker_user_quotas[quota][key] is not defined %}
+             <{{ key }}>{{ value }}</{{ key }}>
+{% endif %}
+{% endfor %}
+        </{{ quota }}>
+{% endfor %}
+    </quotas>
+{% endif %}
+
 {% if clickhouse_docker_users is defined and clickhouse_docker_users != None %}
     <!-- Users and ACL. -->
     <users>
@@ -28,10 +47,12 @@
 {% endfor %}
             <networks incl="networks" replace="replace">
 {% if clickhouse_docker_users[user]['networks'] is not defined %}
-                <ip>::/0</ip>
+{% for network in clickhouse_docker_user_networks_default %}
+                {{ network }}
+{% endfor %}
 {% else %}
-{% for value in clickhouse_docker_users[user]['networks'] %}
-                {{ value }}
+{% for network in clickhouse_docker_users[user]['networks'] %}
+                {{ network }}
 {% endfor %}
 {% endif %}
             </networks>

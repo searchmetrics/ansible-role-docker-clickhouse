@@ -10,15 +10,22 @@
           max_result_rows: 1000000000000
         readonly:
           readonly: 1
+    - clickhouse_docker_user_quotas:
+        default:
+            queries: 100
+        ro_user_quotas:
+            queries: 10
     - clickhouse_docker_users:
         default:
           password: root
         ro_user:
           password: ""
           profile: readonly
+          quota: ro_user_quotas
           networks:
             - "<ip>::1</ip>"
             - "<ip>127.0.0.1</ip>"
+            - "<ip>127.0.0.1/32</ip>"
             - "<host>localhost</host>"
   roles:
     - ansible-role-docker-clickhouse

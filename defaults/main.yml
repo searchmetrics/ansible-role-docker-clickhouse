@@ -25,6 +25,19 @@ clickhouse_docker_config_resharding:
 clickhouse_docker_config_distributed_ddl:
   - /clickhouse/task_queue/ddl
 
+clickhouse_docker_user_quotas:
+
+clickhouse_docker_user_quota_defaults:
+  duration:       3600
+  queries:        0
+  errors:         0
+  result_rows:    0
+  read_rows:      0
+  execution_time: 0
+
 clickhouse_docker_user_profiles:
 
 clickhouse_docker_users:
+
+clickhouse_docker_user_networks_default:
+  - "<ip>::/0</ip>"
