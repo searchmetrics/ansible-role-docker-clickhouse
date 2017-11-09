@@ -7,3 +7,22 @@
     dest: "{{ clickhouse_docker_host_config_folder }}/config.xml"
     mode: 0644
 
+- name: Create ClickHouse custom user profile config
+  tags: [clickhouse, config, users]
+  template:
+    src: users.xml.j2
+    dest: "{{ clickhouse_docker_host_config_folder }}/users.xml"
+    mode: 0644
+
+
+#- name: Create ClickHouse remote server config
+#  tags: [clickhouse, config, remote-servers]
+#  template:
+#    src: remote_servers.xml.j2
+#    dest: "{{ clickhouse_docker_host_config_folder }}/remote_servers.xml"
+#    mode: 0644
+
+
+
+
+

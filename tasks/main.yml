@@ -6,9 +6,6 @@
 - include_tasks: config.yml
   tags: [clickhouse, config]
 
-- include_tasks: users.yml
-  tags: [clickhouse, config, users]
-
 - include_tasks: docker.yml
   tags: [clickhouse, docker]
 
