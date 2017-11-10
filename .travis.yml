@@ -34,7 +34,7 @@ script:
   #1 test default container
   - ansible-playbook tests/test.yml
   - "echo 'SELECT 1' | curl 'http://localhost:8123/' --data-binary @-"
-  - docker rm -f clickhouse
+  - docker rm -f $(docker ps -a -q)
   - sudo rm -r /tmp/docker-clickhouse-*
 
   #2 test config changes
@@ -43,14 +43,27 @@ script:
   - "docker logs clickhouse 2>&1 | grep 'Starting daemon with revision 54304'"
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening http://0.0.0.0:8124'"
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening tcp: 0.0.0.0:9001'"
-  - docker rm -f clickhouse
+  - docker rm -f $(docker ps -a -q)
   - sudo rm -r /tmp/docker-clickhouse-*
 
   #3 test configure users
   - ansible-playbook tests/test-user.yml
   - "echo 'SELECT 1' | curl 'http://localhost:8123/?password=root' --data-binary @-"
   - "echo 'SELECT 1' | curl 'http://localhost:8123/?user=root&password=root' --data-binary @-"
-  - docker rm -f clickhouse
+  - docker rm -f $(docker ps -a -q)
+  - sudo rm -r /tmp/docker-clickhouse-*
+
+  #4 remote server
+  - ansible-playbook tests/test-remote-server.yml
+  - docker rm -f $(docker ps -a -q)
+  - sudo rm -r /tmp/docker-clickhouse-*
+
+  #5 local cluster
+  - ansible-playbook tests/test-local-cluster.yml
+  - "echo 'SELECT 1' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT 1' | curl 'http://172.1.1.2:8123/' --data-binary @-"
+  - "echo 'SELECT 1' | curl 'http://172.1.1.3:8123/' --data-binary @-"
+  - docker rm -f $(docker ps -a -q)
   - sudo rm -r /tmp/docker-clickhouse-*
 
 notifications:

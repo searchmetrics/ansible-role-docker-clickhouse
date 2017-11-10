@@ -1,0 +1,37 @@
+#jinja2: lstrip_blocks: True
+<?xml version="1.0"?>
+<yandex>
+
+{% if clickhouse_docker_remote_servers is defined and clickhouse_docker_remote_servers != None %}
+<remote_servers replace="1">
+
+        {% for cluster in clickhouse_docker_remote_servers %}
+        <{{ cluster }}>
+
+            {% for shard in clickhouse_docker_remote_servers[cluster] %}
+                <shard>
+                {% for key, value in shard['shard'].iteritems() %}
+                    {% if key == 'replica' %}
+                    {% for replica in shard['shard']['replica'] %}
+                    <replica>
+                        {% for r_key, r_value in replica.iteritems() %}
+                        <{{ r_key }}>{{ r_value }}</{{ r_key }}>
+                        {% endfor %}
+                    </replica>
+                        {% endfor %}
+                    {% else %}
+                    <{{ key }}>{{ value }}</{{ key }}>
+                    {% endif %}
+                {% endfor %}
+                </shard>
+            {% endfor %}
+
+        </{{ cluster }}>
+        {% endfor %}
+
+</remote_servers>
+{% endif %}
+
+
+</yandex>
+

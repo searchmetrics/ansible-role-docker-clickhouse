@@ -112,6 +112,87 @@ Server with custom users & profiles:
     - ansible-role-docker-clickhouse
 ```
 
+Local ClickHouse Cluster:
+- ansible playbook yml: [tests/test-local-cluster.yml](tests/test-local-cluster.yml)
+- good to run local config tests
+```yml
+- hosts: localhost
+  remote_user: root
+  tasks:
+    - name: Create a ClickHouse docker network
+      docker_network:
+        name: ClickNetwork
+        ipam_options:
+          subnet: '172.1.1.0/24'
+          gateway: 172.1.1.100
+          iprange: '172.1.1.0/24'
+
+
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_container_name: "clickhouse-1"
+    - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/1"
+    - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/1"
+    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/1"
+    - clickhouse_docker_network_mode: bridge
+    - clickhouse_docker_networks:
+        - { name: "ClickNetwork", ipv4_address: "172.1.1.1" }
+    - clickhouse_docker_config:
+        interserver_http_host:  172.1.1.1
+    - clickhouse_docker_remote_servers:
+        no-replica-cluster:
+          - shard: { replica: [ { host: 172.1.1.1, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.2, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }
+  roles:
+    - ansible-role-docker-clickhouse
+
+
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_container_name: "clickhouse-2"
+    - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/2"
+    - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/2"
+    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/2"
+    - clickhouse_docker_network_mode: bridge
+    - clickhouse_docker_networks:
+        - { name: "ClickNetwork", ipv4_address: "172.1.1.2" }
+    - clickhouse_docker_config:
+        interserver_http_host:  172.1.1.2
+    - clickhouse_docker_remote_servers:
+        no-replica-cluster:
+          - shard: { replica: [ { host: 172.1.1.1, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.2, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }
+  roles:
+    - ansible-role-docker-clickhouse
+
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_container_name: "clickhouse-3"
+    - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/3"
+    - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/3"
+    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/3"
+    - clickhouse_docker_network_mode: bridge
+    - clickhouse_docker_networks:
+        - { name: "ClickNetwork", ipv4_address: "172.1.1.3" }
+    - clickhouse_docker_config:
+        interserver_http_host:  172.1.1.3
+    - clickhouse_docker_remote_servers:
+        no-replica-cluster:
+          - shard: { replica: [ { host: 172.1.1.1, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.2, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }
+  roles:
+    - ansible-role-docker-clickhouse
+```
+
 ##  License
 
 MIT

@@ -6,4 +6,5 @@
     image: yandex/clickhouse-server:{{ clickhouse_docker_version }}
     state: started
     network_mode: "{{ clickhouse_docker_network_mode }}"
+    networks: "{{ clickhouse_docker_networks }}"
     volumes: "{{ clickhouse_docker_bind_mounts }}"

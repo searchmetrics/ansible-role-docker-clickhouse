@@ -6,6 +6,7 @@ clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue"
 
 # docker
 clickhouse_docker_version: latest
+clickhouse_docker_networks: []
 clickhouse_docker_network_mode: host
 clickhouse_docker_container_name: clickhouse
 clickhouse_docker_bind_mounts:
@@ -15,9 +16,10 @@ clickhouse_docker_bind_mounts:
 
 # clickhouse
 clickhouse_docker_config:
-  listen_host:  127.0.0.1
-  http_port:    8123
-  tcp_port:     9000
+  listen_host:            127.0.0.1
+  interserver_http_host:  127.0.0.1
+  http_port:              8123
+  tcp_port:               9000
 
 clickhouse_docker_config_resharding:
   - /clickhouse/task_queue
@@ -41,3 +43,5 @@ clickhouse_docker_users:
 
 clickhouse_docker_user_networks_default:
   - "<ip>::/0</ip>"
+
+clickhouse_docker_remote_servers:
