@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_config:
+        http_port:    8123
+        tcp_port:     9000
+    - clickhouse_docker_remote_servers:
+        single-shard-cluster:
+          - shard:
+              replica:
+                - { host: 127.0.0.1, port: 9000 }
+                - { host: 127.0.0.1, port: 9001 }
+        no-replica-cluster:
+          - shard:
+              replica:
+                - { host: 127.0.0.1, port: 9000 }
+          - shard:
+              replica:
+                - { host: 127.0.0.1, port: 9001 }
+        test-cluster:
+          - shard:
+              weight: 1
+              internal_replication: false
+              replica:
+                - { host: 127.0.0.1, port: 9000 }
+                - { host: 127.0.0.1, port: 9001 }
+          - shard:
+              weight: 1
+              internal_replication: false
+              replica:
+                - { host: 127.0.0.1, port: 9002 }
+                - { host: 127.0.0.1, port: 9003 }
+  roles:
+    - ansible-role-docker-clickhouse

@@ -1,20 +1,21 @@
+#jinja2: lstrip_blocks: True
 <?xml version="1.0"?>
 <yandex>
 
-{% for item in clickhouse_docker_config %}
-    <{{ item }} replace="1">{{ clickhouse_docker_config[item] }}</{{ item }}>
-{% endfor %}
+    {% for setting in clickhouse_docker_config %}
+    <{{ setting }} replace="1">{{ clickhouse_docker_config[setting] }}</{{ setting }}>
+    {% endfor %}
 
     <resharding replace="1">
-{% for item in clickhouse_docker_config_resharding %}
+        {% for item in clickhouse_docker_config_resharding %}
         <task_queue_path replace="1">{{ item }}</task_queue_path>
-{% endfor %}
+        {% endfor %}
     </resharding>
 
     <distributed_ddl replace="1">
-{% for item in clickhouse_docker_config_distributed_ddl %}
+        {% for item in clickhouse_docker_config_distributed_ddl %}
         <path replace="1">{{ item }}</path>
-{% endfor %}
+        {% endfor %}
     </distributed_ddl>
 
 </yandex>
