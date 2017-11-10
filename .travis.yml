@@ -40,7 +40,7 @@ script:
   #2 test config changes
   - ansible-playbook tests/test-config.yml
   - "echo 'SELECT 1' | curl 'http://localhost:8124/' --data-binary @-"
-  - "docker logs clickhouse 2>&1 | grep 'Starting daemon with revision 54304'"
+  - "docker logs clickhouse 2>&1 | grep 'Starting daemon with revision 54310'"
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening http://0.0.0.0:8124'"
   - "docker logs clickhouse 2>&1 | grep 'Application: Listening tcp: 0.0.0.0:9001'"
   - docker rm -f $(docker ps -a -q)
