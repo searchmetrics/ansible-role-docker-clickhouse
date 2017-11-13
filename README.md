@@ -9,7 +9,7 @@ You can change any server setting for example:
 - user profiles
 - user password 
 - user quotas
-- remote server
+- remote server (ClickHouse cluster)
 
 ## Requirements
 This role requires Ansible 2.0 or higher.
