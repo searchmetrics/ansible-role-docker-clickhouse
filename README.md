@@ -2,8 +2,14 @@
 [![Build Status](https://api.travis-ci.org/searchmetrics/ansible-role-docker-clickhouse.svg?branch=master)](https://travis-ci.org/searchmetrics/ansible-role-docker-clickhouse) [![Ansible Role](https://img.shields.io/ansible/role/21659.svg)](https://galaxy.ansible.com/searchmetrics/ansible-role-docker-clickhouse/)
 
 An ansible role to start and run a ClickHouse server docker container. 
-You can change any server setting (listen host (bind address), ports, etc.),
-define user profiles, user password or user quotas.
+You can change any server setting for example:
+- ClickHouse server version
+- listen host (bind address)
+- ports
+- user profiles
+- user password 
+- user quotas
+- remote server
 
 ## Requirements
 This role requires Ansible 2.0 or higher.
@@ -27,7 +33,7 @@ clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_task_queue_folder}}:/clickhouse/task_queue"
 ```
 
-clickhouse server settings
+ClickHouse server settings
 ```yml
 clickhouse_docker_config:
   listen_host:  127.0.0.1
@@ -41,7 +47,7 @@ clickhouse_docker_config_distributed_ddl:
   - /clickhouse/task_queue/ddl
 ```  
   
-clickhouse user profiles
+ClickHouse user profiles
 ```yml
 # ------------------------ 
 # default user settings:
