@@ -27,7 +27,7 @@ clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_task_queue_folder}}:/clickhouse/task_queue"
 ```
 
-clickhouser server settings
+clickhouse server settings
 ```yml
 clickhouse_docker_config:
   listen_host:  127.0.0.1
@@ -41,7 +41,7 @@ clickhouse_docker_config_distributed_ddl:
   - /clickhouse/task_queue/ddl
 ```  
   
-clickhouser user profiles
+clickhouse user profiles
 ```yml
 # ------------------------ 
 # default user settings:
@@ -114,7 +114,7 @@ Server with custom users & profiles:
 
 Local ClickHouse Cluster:
 - ansible playbook yml: [tests/test-local-cluster.yml](tests/test-local-cluster.yml)
-- good to run local config tests
+- good for local config testing
 ```yml
 - hosts: localhost
   remote_user: root
