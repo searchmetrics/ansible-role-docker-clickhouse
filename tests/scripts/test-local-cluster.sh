@@ -9,11 +9,11 @@ port="8123"
 for server in $servers
 do
 
-    cat $BASE_DIR/tests/sql/test-local-cluster/create_test_local_table.sql | curl -XPOST 'http://'$server':'$port'/' --data-binary @- POST
-    cat $BASE_DIR/tests/sql/test-local-cluster/create_test_table.sql | curl -XPOST 'http://'$server':'$port'/' --data-binary @- POST
+    cat $BASE_DIR/tests/sql/test-local-cluster/create_test_local_table.sql | curl -XPOST 'http://'$server':'$port'/' --data-binary @-
+    cat $BASE_DIR/tests/sql/test-local-cluster/create_test_table.sql | curl -XPOST 'http://'$server':'$port'/' --data-binary @-
 
 done
 
 # insert data
-echo "INSERT INTO test(date,id,value) VALUES ('2006-08-08',1,'https://www.searchmetrics.com/')" | curl -XPOST 'http://172.1.1.1:'$port'/' --data-binary @- POST
-echo "INSERT INTO test_local(date,id,value) VALUES ('2016-06-01',2,'https://clickhouse.yandex/')" | curl -XPOST 'http://172.1.1.2:'$port'/' --data-binary @- POST
+echo "INSERT INTO test(date,id,value) VALUES ('2006-08-08',1,'https://www.searchmetrics.com/')" | curl -XPOST 'http://172.1.1.1:'$port'/' --data-binary @-
+echo "INSERT INTO test_local(date,id,value) VALUES ('2016-06-01',2,'https://clickhouse.yandex/')" | curl -XPOST 'http://172.1.1.2:'$port'/' --data-binary @-
