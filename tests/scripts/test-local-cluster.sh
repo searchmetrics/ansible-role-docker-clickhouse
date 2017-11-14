@@ -5,12 +5,24 @@ BASE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )
 servers="172.1.1.1 172.1.1.2 172.1.1.3"
 port="8123"
 
+
+sql_local="CREATE TABLE IF NOT EXISTS test_local
+(
+    date Date,
+    id UInt32,
+    value String
+)
+ENGINE = MergeTree(date, (id), 8192);"
+
+sql_dist="CREATE TABLE IF NOT EXISTS test AS test_local
+  ENGINE = Distributed(test-cluster, default, test_local, rand());"
+
 # create tables
 for server in $servers
 do
 
-    cat $BASE_DIR/tests/sql/test-local-cluster/create_test_local_table.sql | curl -XPOST 'http://'$server':'$port'/' --data-binary @-
-    cat $BASE_DIR/tests/sql/test-local-cluster/create_test_table.sql | curl -XPOST 'http://'$server':'$port'/' --data-binary @-
+    echo $sql_local | curl -XPOST 'http://'$server':'$port'/' --data-binary @-
+    echo $sql_dist | curl -XPOST 'http://'$server':'$port'/' --data-binary @-
 
 done
 

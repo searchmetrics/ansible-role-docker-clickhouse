@@ -1,0 +1,104 @@
+---
+
+- hosts: localhost
+  remote_user: root
+  tasks:
+    - name: Create a ClickHouse docker network
+      docker_network:
+        name: ClickNetwork
+        ipam_options:
+          subnet: '172.1.1.0/24'
+          gateway: 172.1.1.100
+          iprange: '172.1.1.0/24'
+
+- hosts: localhost
+  remote_user: root
+  tasks:
+  - name: Start Zookeeper container
+    docker_container:
+      name: "{{ item.name }}"
+      image: zookeeper:3.4.10
+      state: started
+      network_mode: bridge
+      networks:
+        - { name: "ClickNetwork", ipv4_address: "{{ item.ip }}" }
+      env:
+        ZOO_MY_ID: "{{ item.id }}"
+        ZOO_SERVERS: "server.1=172.1.1.11:2888:3888 server.2=172.1.1.12:2888:3888 server.3=172.1.1.13:2888:3888"
+    with_items:
+      - { name: "zookeeper-1", ip: "172.1.1.11", id: "1" }
+      - { name: "zookeeper-2", ip: "172.1.1.12", id: "2" }
+      - { name: "zookeeper-3", ip: "172.1.1.13", id: "3" }
+
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_container_name: "clickhouse-1"
+    - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/1"
+    - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/1"
+    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/1"
+    - clickhouse_docker_network_mode: bridge
+    - clickhouse_docker_networks:
+        - { name: "ClickNetwork", ipv4_address: "172.1.1.1" }
+    - clickhouse_docker_config:
+        interserver_http_host:  172.1.1.1
+    - clickhouse_docker_remote_servers:
+        test-cluster:
+          - shard: { replica: [ { host: 172.1.1.1, port: 9000 }, { host: 172.1.1.2, port: 9000 } ] }  #1-shard with replica
+          - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }                                   #2-shard without replica
+    - clickhouse_docker_zookeeper_hosts:
+        - { index: 1, ip: 172.1.1.11, port: 2181 }
+        - { index: 2, ip: 172.1.1.12, port: 2181 }
+        - { index: 3, ip: 172.1.1.13, port: 2181 }
+  roles:
+    - ansible-role-docker-clickhouse
+
+
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_container_name: "clickhouse-2"
+    - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/2"
+    - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/2"
+    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/2"
+    - clickhouse_docker_network_mode: bridge
+    - clickhouse_docker_networks:
+        - { name: "ClickNetwork", ipv4_address: "172.1.1.2" }
+    - clickhouse_docker_config:
+        interserver_http_host:  172.1.1.2
+    - clickhouse_docker_remote_servers:
+        test-cluster:
+          - shard: { replica: [ { host: 172.1.1.1, port: 9000 }, { host: 172.1.1.2, port: 9000 } ] }  #1-shard with replica
+          - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }                                   #2-shard without replica
+    - clickhouse_docker_zookeeper_hosts:
+        - { index: 1, ip: 172.1.1.11, port: 2181 }
+        - { index: 2, ip: 172.1.1.12, port: 2181 }
+        - { index: 3, ip: 172.1.1.13, port: 2181 }
+  roles:
+    - ansible-role-docker-clickhouse
+
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_container_name: "clickhouse-3"
+    - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/3"
+    - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/3"
+    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/3"
+    - clickhouse_docker_network_mode: bridge
+    - clickhouse_docker_networks:
+        - { name: "ClickNetwork", ipv4_address: "172.1.1.3" }
+    - clickhouse_docker_config:
+        interserver_http_host:  172.1.1.3
+    - clickhouse_docker_remote_servers:
+        test-cluster:
+          - shard: { replica: [ { host: 172.1.1.1, port: 9000 }, { host: 172.1.1.2, port: 9000 } ] }  #1-shard with replica
+          - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }                                   #2-shard without replica
+    - clickhouse_docker_zookeeper_hosts:
+        - { index: 1, ip: 172.1.1.11, port: 2181 }
+        - { index: 2, ip: 172.1.1.12, port: 2181 }
+        - { index: 3, ip: 172.1.1.13, port: 2181 }
+  roles:
+    - ansible-role-docker-clickhouse

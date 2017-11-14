@@ -24,7 +24,10 @@
     mode: 0644
   when: clickhouse_docker_bind_mounts != []
 
-
-
-
-
+- name: Create ClickHouse zookeeper hosts config
+  tags: [clickhouse, config, zookeeper]
+  template:
+    src: zookeeper.xml.j2
+    dest: "{{ clickhouse_docker_host_config_folder }}/zookeeper.xml"
+    mode: 0644
+  when: clickhouse_docker_bind_mounts != []
