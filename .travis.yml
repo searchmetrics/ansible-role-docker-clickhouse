@@ -75,5 +75,14 @@ script:
   - docker rm -f $(docker ps -a -q)
   - sudo rm -r /tmp/docker-clickhouse-*
 
+  #6 local 3 node ClickHouse cluster with 3 node Zookeeper cluster & macros
+  - ansible-playbook tests/test-local-cluster-with-zookeeper.yml
+  - bash tests/scripts/test-local-cluster-with-zookeeper-macros.sh
+  - "echo 'SELECT id, value FROM test' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT id, value FROM test_local' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT id, value FROM test_local' | curl 'http://172.1.1.2:8123/' --data-binary @-"
+  - docker rm -f $(docker ps -a -q)
+  - sudo rm -r /tmp/docker-clickhouse-*
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

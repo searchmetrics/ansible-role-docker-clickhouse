@@ -49,3 +49,5 @@ clickhouse_docker_user_networks_default:
 clickhouse_docker_remote_servers:
 
 clickhouse_docker_zookeeper_hosts:
+
+clickhouse_docker_macros:
