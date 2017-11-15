@@ -16,19 +16,16 @@
   tasks:
   - name: Start Zookeeper container
     docker_container:
-      name: "{{ item.name }}"
+      name: "zookeeper-{{ item }}"
       image: zookeeper:3.4.10
       state: started
       network_mode: bridge
       networks:
-        - { name: "ClickNetwork", ipv4_address: "{{ item.ip }}" }
+        - { name: "ClickNetwork", ipv4_address: "172.1.1.1{{ item }}" }
       env:
-        ZOO_MY_ID: "{{ item.id }}"
+        ZOO_MY_ID: "{{ item }}"
         ZOO_SERVERS: "server.1=172.1.1.11:2888:3888 server.2=172.1.1.12:2888:3888 server.3=172.1.1.13:2888:3888"
-    with_items:
-      - { name: "zookeeper-1", ip: "172.1.1.11", id: "1" }
-      - { name: "zookeeper-2", ip: "172.1.1.12", id: "2" }
-      - { name: "zookeeper-3", ip: "172.1.1.13", id: "3" }
+    with_sequence: count=3
 
 - hosts: localhost
   remote_user: root
