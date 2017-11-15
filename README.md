@@ -18,7 +18,7 @@ This role requires Ansible 2.0 or higher.
 
 ## Role Variables
 
-host & docker vars
+##### host & docker vars
 ```yml
 # host
 clickhouse_docker_host_data_folder: "/docker/clickhouse-data"
@@ -27,29 +27,56 @@ clickhouse_docker_host_task_queue_folder: "/docker/clickhouse-task-queue"
 
 # docker
 clickhouse_docker_version: latest
+clickhouse_docker_networks: []
 clickhouse_docker_network_mode: host
 clickhouse_docker_container_name: clickhouse
 clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_data_folder}}:/var/lib/clickhouse"
   - "{{clickhouse_docker_host_config_folder}}:/etc/clickhouse-server/conf.d"
   - "{{clickhouse_docker_host_task_queue_folder}}:/clickhouse/task_queue"
+clickhouse_docker_ulimits:
+  - "nofile:262144:262144"
 ```
 
-ClickHouse server settings
+##### ClickHouse server settings
 ```yml
 clickhouse_docker_config:
-  listen_host:  127.0.0.1
-  http_port:    8123
-  tcp_port:     9000
+  listen_host:            127.0.0.1
+  interserver_http_host:  127.0.0.1
+  http_port:              8123
+  tcp_port:               9000
 
 clickhouse_docker_config_resharding:
   - /clickhouse/task_queue
 
 clickhouse_docker_config_distributed_ddl:
   - /clickhouse/task_queue/ddl
+
+clickhouse_docker_user_quotas:
+
+clickhouse_docker_user_quota_defaults:
+  duration:       3600
+  queries:        0
+  errors:         0
+  result_rows:    0
+  read_rows:      0
+  execution_time: 0
+
+clickhouse_docker_user_profiles:
+
+clickhouse_docker_users:
+
+clickhouse_docker_user_networks_default:
+  - "<ip>::/0</ip>"
+
+clickhouse_docker_remote_servers:
+
+clickhouse_docker_zookeeper_hosts:
+
+clickhouse_docker_macros:
 ```  
   
-ClickHouse user profiles
+##### ClickHouse user profiles
 ```yml
 # ------------------------ 
 # default user settings:
@@ -71,7 +98,7 @@ clickhouse_docker_user_profiles:
 ```
 
 ## Example Playbook
-#####Server with default config.
+##### Server with default config
 ```yml
 - hosts: localhost
   become: yes
@@ -79,7 +106,7 @@ clickhouse_docker_user_profiles:
     - ansible-role-docker-clickhouse
 ```
 
-#####Server with custom config:
+##### Server with custom config
 - ClickHouse server version
 - HTTP & TCP ports
 - listen_host (bind address)
@@ -96,7 +123,7 @@ clickhouse_docker_user_profiles:
     - ansible-role-docker-clickhouse
 ```
 
-#####Server with custom users & profiles:
+##### Server with custom users & profiles
 - Set a password for default ClickHouse user.
 - Define a read-only ClickHouse user "ro_user" with empty password, profile, quota and network. 
 ```yml
@@ -127,11 +154,12 @@ clickhouse_docker_user_profiles:
     - ansible-role-docker-clickhouse
 ```
 
-#####Server with remote server config.
+##### Server with remote server config
 
-In the following example you can find a remote server definition with 2 cluster. 
-One alled "cluster-with-replicas" with 2 shard and 2 replica (1 replica per shard) 
-and another cluster called "cluster-with-shards" with 4 shards no replication.
+In the following example you can find a remote server definition with 3 cluster: 
+- "cluster-with-replicas" is a cluster with 2 shards and 2 replicas (1 replica per shard) 
+- "cluster-with-shards" is a cluster with 4 shards and no replication
+- "cluster-inter-rep-and-weight" is a cluster with 2 shards, 2 replicas, weight and interal_replication definition
 
 ![ClickHouse remote server config with shards and replicas](docs/clickhouse_server_with_remote_server_config.png "ClickHouse remote server config with shards and replicas")
 
@@ -157,12 +185,25 @@ and another cluster called "cluster-with-shards" with 4 shards no replication.
           - shard: { replica: [ { host: 172.1.1.2, port: 9000 } ] }
           - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }
           - shard: { replica: [ { host: 172.1.1.4, port: 9000 } ] }
+        cluster-inter-rep-and-weight:
+          - shard:
+              weight: 1
+              internal_replication: true
+              replica:
+                - { host: 127.0.0.1, port: 9000 }
+                - { host: 127.0.0.2, port: 9000 }    
+          - shard:
+              weight: 2
+              internal_replication: true
+              replica:
+                - { host: 127.0.0.3, port: 9000 }
+                - { host: 127.0.0.4, port: 9000 }                       
   roles:
     - ansible-role-docker-clickhouse                
 
 ```
 
-#####Server with ZooKeeper hosts config.
+##### Server with ZooKeeper hosts config
 
 ```yml
 - hosts: localhost
@@ -202,7 +243,7 @@ $docker exec clickhouse-1 cat /etc/clickhouse-server/conf.d/zookeeper.xml
 
 ```
 
-#####Server with macros definition.
+##### Server with macros definition
 ```yml
 - hosts: localhost
   remote_user: root
@@ -230,7 +271,7 @@ $docker exec clickhouse-1 cat /etc/clickhouse-server/conf.d/macros.xml
 </yandex>
 ```
 
-#####Local ClickHouse Cluster with 3 nodes:
+##### Local ClickHouse Cluster with 3 nodes
 Ansible playbook yml file: [tests/test-local-cluster-with-zookeeper.yml](tests/test-local-cluster-with-zookeeper.yml)\
 A good example to run local config tests. 
 
