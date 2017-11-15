@@ -190,14 +190,14 @@ In the following example you can find a remote server definition with 3 cluster:
               weight: 1
               internal_replication: true
               replica:
-                - { host: 127.0.0.1, port: 9000 }
-                - { host: 127.0.0.2, port: 9000 }    
+                - { host: 172.1.1.1, port: 9000 }
+                - { host: 172.1.1.2, port: 9000 }  
           - shard:
               weight: 2
               internal_replication: true
               replica:
-                - { host: 127.0.0.3, port: 9000 }
-                - { host: 127.0.0.4, port: 9000 }                       
+                - { host: 172.1.1.3, port: 9000 }
+                - { host: 172.1.1.4, port: 9000 }                     
   roles:
     - ansible-role-docker-clickhouse                
 
