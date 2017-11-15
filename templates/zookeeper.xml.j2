@@ -1,15 +1,17 @@
+#jinja2: lstrip_blocks: True
 <?xml version="1.0"?>
 <yandex>
 
+{% if clickhouse_docker_zookeeper_hosts is defined and clickhouse_docker_zookeeper_hosts != None %}
 <zookeeper replace="1">
 
-    {% for item in clickhouse_zookeeper_hosts %}
-        <node index="{{ item.index }}">
-            <host>{{ item.ip }}</host>
-            <port>{{ clickhouse_zookeeper_port }}</port>
+    {% for zookeeper_host in clickhouse_docker_zookeeper_hosts %}
+        <node index="{{ zookeeper_host.index }}">
+            <host>{{ zookeeper_host.ip }}</host>
+            <port>{{ zookeeper_host.port }}</port>
         </node>
     {% endfor %}
 
 </zookeeper>
-
+{% endif %}
 </yandex>

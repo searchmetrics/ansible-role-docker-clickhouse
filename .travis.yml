@@ -58,11 +58,29 @@ script:
   - docker rm -f $(docker ps -a -q)
   - sudo rm -r /tmp/docker-clickhouse-*
 
-  #5 local cluster
+  #5 local 3 node ClickHouse cluster
   - ansible-playbook tests/test-local-cluster.yml
-  - "echo 'SELECT 1' | curl 'http://172.1.1.1:8123/' --data-binary @-"
-  - "echo 'SELECT 1' | curl 'http://172.1.1.2:8123/' --data-binary @-"
-  - "echo 'SELECT 1' | curl 'http://172.1.1.3:8123/' --data-binary @-"
+  - bash tests/scripts/test-local-cluster.sh
+  - "echo 'SELECT id, value FROM test' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT id, value FROM test_local' | curl 'http://172.1.1.2:8123/' --data-binary @-"
+  - docker rm -f $(docker ps -a -q)
+  - sudo rm -r /tmp/docker-clickhouse-*
+
+  #6 local 3 node ClickHouse cluster with 3 node Zookeeper cluster
+  - ansible-playbook tests/test-local-cluster-with-zookeeper.yml
+  - bash tests/scripts/test-local-cluster-with-zookeeper.sh
+  - "echo 'SELECT id, value FROM test' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT id, value FROM test_local' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT id, value FROM test_local' | curl 'http://172.1.1.2:8123/' --data-binary @-"
+  - docker rm -f $(docker ps -a -q)
+  - sudo rm -r /tmp/docker-clickhouse-*
+
+  #6 local 3 node ClickHouse cluster with 3 node Zookeeper cluster & macros
+  - ansible-playbook tests/test-local-cluster-with-zookeeper.yml
+  - bash tests/scripts/test-local-cluster-with-zookeeper-macros.sh
+  - "echo 'SELECT id, value FROM test' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT id, value FROM test_local' | curl 'http://172.1.1.1:8123/' --data-binary @-"
+  - "echo 'SELECT id, value FROM test_local' | curl 'http://172.1.1.2:8123/' --data-binary @-"
   - docker rm -f $(docker ps -a -q)
   - sudo rm -r /tmp/docker-clickhouse-*
 

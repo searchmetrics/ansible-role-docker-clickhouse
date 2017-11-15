@@ -1,0 +1,14 @@
+#jinja2: lstrip_blocks: True
+<?xml version="1.0"?>
+<yandex>
+
+{% if clickhouse_docker_macros is defined and clickhouse_docker_macros != None %}
+<macros replace="1">
+
+    {% for key, value in clickhouse_docker_macros.iteritems() %}
+    <{{ key }}>{{ value }}</{{ key }}>
+    {% endfor %}
+
+</macros>
+{% endif %}
+</yandex>
