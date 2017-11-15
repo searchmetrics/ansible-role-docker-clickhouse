@@ -10,6 +10,8 @@ You can change any server setting for example:
 - user password 
 - user quotas
 - remote server (ClickHouse cluster)
+- zookeeper host
+- macros
 
 ## Requirements
 This role requires Ansible 2.0 or higher.
@@ -69,7 +71,7 @@ clickhouse_docker_user_profiles:
 ```
 
 ## Example Playbook
-Server with default config:
+Server with default config.
 ```yml
 - hosts: localhost
   become: yes
@@ -78,9 +80,9 @@ Server with default config:
 ```
 
 Server with custom config:
-- changed ClickHouse server version
-- changed HTTP & TCP ports
-- changed listen_host (bind address)
+- ClickHouse server version
+- HTTP & TCP ports
+- listen_host (bind address)
 ```yml
 - hosts: localhost
   become: yes
@@ -114,8 +116,47 @@ Server with custom users & profiles:
         ro_user:
           password: ""
           profile: readonly
+          quota: ro_user_quotas
+          networks:
+            - "<ip>::1</ip>"
+            - "<ip>127.0.0.1</ip>"
+            - "<ip>127.0.0.1/32</ip>"
+            - "<host>localhost</host>"
   roles:
     - ansible-role-docker-clickhouse
+```
+
+Server with remote server config.
+
+![docs/server_with_remote_server_config.png](docs/server_with_remote_server_config.png)
+
+```yml
+
+- hosts: localhost
+  remote_user: root
+  vars:
+    - clickhouse_docker_config:
+        http_port:    8123
+        tcp_port:     9000
+    - clickhouse_docker_remote_servers:
+        cluster-with-replicas:
+          - shard:
+              replica:
+                - { host: 172.1.1.1, port: 9000 }
+                - { host: 172.1.1.2, port: 9000 }
+          - shard:
+              replica:
+                - { host: 172.1.1.3, port: 9000 }
+                - { host: 172.1.1.4, port: 9000 }    
+        cluster-with-shards:
+          - shard: { replica: [ { host: 172.1.1.1, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.2, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.3, port: 9000 } ] }
+          - shard: { replica: [ { host: 172.1.1.4, port: 9000 } ] }
+
+  roles:
+    - ansible-role-docker-clickhouse                
+
 ```
 
 Local ClickHouse Cluster:
