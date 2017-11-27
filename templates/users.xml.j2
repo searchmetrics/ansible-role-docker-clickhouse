@@ -16,7 +16,7 @@
 
 {% endif %}
 
-{% if clickhouse_docker_user_quotas is defined and clickhouse_docker_users != None %}
+{% if clickhouse_docker_user_quotas is defined and clickhouse_docker_user_quotas != None %}
     <!-- Quotas. -->
     <quotas>
         {% for quota in clickhouse_docker_user_quotas %}
