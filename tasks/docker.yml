@@ -9,3 +9,4 @@
     networks: "{{ clickhouse_docker_networks }}"
     volumes: "{{ clickhouse_docker_bind_mounts }}"
     ulimits: "{{ clickhouse_docker_ulimits }}"
+    ports: "{{ clickhouse_docker_ports }}"
