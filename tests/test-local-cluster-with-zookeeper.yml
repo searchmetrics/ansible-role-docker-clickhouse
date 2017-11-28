@@ -22,6 +22,10 @@
       network_mode: bridge
       networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.1{{ item }}" }
+      published_ports:
+        - "2181"
+        - "2888"
+        - "3888"
       env:
         ZOO_MY_ID: "{{ item }}"
         ZOO_SERVERS: "server.1=172.1.1.11:2888:3888 server.2=172.1.1.12:2888:3888 server.3=172.1.1.13:2888:3888"
@@ -34,7 +38,6 @@
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/1"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/1"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/1"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.1" }
@@ -62,7 +65,6 @@
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/2"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/2"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/2"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.2" }
@@ -89,7 +91,6 @@
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/3"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/3"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/3"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.3" }

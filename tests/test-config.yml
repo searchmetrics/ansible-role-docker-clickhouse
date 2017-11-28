@@ -3,8 +3,12 @@
   remote_user: root
   vars:
     - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_ports:
+        - "8124:8124"
+        - "9001:9001"
     - clickhouse_docker_config:
         http_port:    8124
         tcp_port:     9001
+        listen_host:  0.0.0.0
   roles:
     - ansible-role-docker-clickhouse

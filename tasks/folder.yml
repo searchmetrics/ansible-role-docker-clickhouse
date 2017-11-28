@@ -8,4 +8,3 @@
   with_items:
     - "{{ clickhouse_docker_host_data_folder }}"
     - "{{ clickhouse_docker_host_config_folder }}"
-    - "{{ clickhouse_docker_host_task_queue_folder }}"

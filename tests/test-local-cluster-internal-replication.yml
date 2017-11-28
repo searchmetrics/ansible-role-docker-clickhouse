@@ -34,7 +34,6 @@
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/1"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/1"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/1"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.1" }
@@ -78,7 +77,6 @@
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/2"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/2"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/2"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.2" }

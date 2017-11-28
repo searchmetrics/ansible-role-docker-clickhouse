@@ -11,6 +11,9 @@ galaxy_info:
       versions:
         - xenial
         - trusty
+    - name: MacOSX
+      versions:
+        - all
 
   galaxy_tags:
     - clickhouse

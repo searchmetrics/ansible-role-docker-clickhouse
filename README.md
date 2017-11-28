@@ -23,7 +23,6 @@ This role requires Ansible 2.0 or higher.
 # host
 clickhouse_docker_host_data_folder: "/docker/clickhouse-data"
 clickhouse_docker_host_config_folder: "/docker/clickhouse-config"
-clickhouse_docker_host_task_queue_folder: "/docker/clickhouse-task-queue"
 
 # docker
 clickhouse_docker_version: latest
@@ -33,9 +32,12 @@ clickhouse_docker_container_name: clickhouse
 clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_data_folder}}:/var/lib/clickhouse"
   - "{{clickhouse_docker_host_config_folder}}:/etc/clickhouse-server/conf.d"
-  - "{{clickhouse_docker_host_task_queue_folder}}:/clickhouse/task_queue"
 clickhouse_docker_ulimits:
   - "nofile:262144:262144"
+clickhouse_docker_ports:
+    - "8123:8123"
+    - "9000:9000"
+    - "9009:9009"  
 ```
 
 ##### ClickHouse server settings
@@ -112,9 +114,12 @@ clickhouse_docker_user_profiles:
 - listen_host (bind address)
 ```yml
 - hosts: localhost
-  become: yes
+  remote_user: root
   vars:
-    - clickhouse_docker_version: 1.1.54304
+    - clickhouse_docker_version: 1.1.54310
+    - clickhouse_docker_ports:
+        - "8124:8124"
+        - "9001:9001"
     - clickhouse_docker_config:
         http_port:    8124
         tcp_port:     9001
@@ -319,7 +324,6 @@ A good example to run local config tests.
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/1"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/1"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/1"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.1" }
@@ -347,7 +351,6 @@ A good example to run local config tests.
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/2"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/2"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/2"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.2" }
@@ -374,7 +377,6 @@ A good example to run local config tests.
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data/3"
     - clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config/3"
-    - clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue/3"
     - clickhouse_docker_network_mode: bridge
     - clickhouse_docker_networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.3" }
