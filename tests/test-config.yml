@@ -9,5 +9,6 @@
     - clickhouse_docker_config:
         http_port:    8124
         tcp_port:     9001
+        listen_host:  0.0.0.0
   roles:
     - ansible-role-docker-clickhouse
