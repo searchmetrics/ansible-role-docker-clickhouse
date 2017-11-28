@@ -118,8 +118,8 @@ clickhouse_docker_user_profiles:
   vars:
     - clickhouse_docker_version: 1.1.54310
     - clickhouse_docker_ports:
-        - "8124:8124"
-        - "9001:9001"
+        - "8124"
+        - "9001"
     - clickhouse_docker_config:
         http_port:    8124
         tcp_port:     9001
