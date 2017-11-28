@@ -22,6 +22,10 @@
       network_mode: bridge
       networks:
         - { name: "ClickNetwork", ipv4_address: "172.1.1.1{{ item }}" }
+      published_ports:
+        - "2181"
+        - "2888"
+        - "3888"
       env:
         ZOO_MY_ID: "{{ item }}"
         ZOO_SERVERS: "server.1=172.1.1.11:2888:3888 server.2=172.1.1.12:2888:3888 server.3=172.1.1.13:2888:3888"
