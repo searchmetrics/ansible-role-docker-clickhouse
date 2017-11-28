@@ -15,7 +15,7 @@ sql_local="CREATE TABLE IF NOT EXISTS test_local
 ENGINE = MergeTree(date, (id), 8192);"
 
 sql_dist="CREATE TABLE IF NOT EXISTS test AS test_local
-  ENGINE = Distributed(test-cluster, default, test_local, rand());"
+  ENGINE = Distributed(no-replica-cluster, default, test_local, rand());"
 
 # create tables
 for server in $servers

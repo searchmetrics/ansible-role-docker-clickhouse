@@ -28,7 +28,7 @@ sql3="CREATE TABLE IF NOT EXISTS test_local
     id UInt32,
     value String
 )
-ENGINE = ReplicatedMergeTree('/clickhouse/tables/1/test_local', '1', date, (id), 8192);"
+ENGINE = ReplicatedMergeTree('/clickhouse/tables/2/test_local', '1', date, (id), 8192);"
 
 
 # create local tables
