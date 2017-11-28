@@ -2,7 +2,6 @@
 # host
 clickhouse_docker_host_data_folder: "/tmp/docker-clickhouse-data"
 clickhouse_docker_host_config_folder: "/tmp/docker-clickhouse-config"
-clickhouse_docker_host_task_queue_folder: "/tmp/docker-clickhouse-task-queue"
 
 # docker
 clickhouse_docker_version: latest
@@ -12,7 +11,6 @@ clickhouse_docker_container_name: clickhouse
 clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_data_folder}}:/var/lib/clickhouse"
   - "{{clickhouse_docker_host_config_folder}}:/etc/clickhouse-server/conf.d"
-  - "{{clickhouse_docker_host_task_queue_folder}}:/clickhouse/task_queue"
 clickhouse_docker_ulimits:
   - "nofile:262144:262144"
 clickhouse_docker_ports:
