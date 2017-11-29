@@ -13,7 +13,8 @@ galaxy_info:
         - trusty
     - name: MacOSX
       versions:
-        - all
+        - "10.11"
+        - "10.12"
 
   galaxy_tags:
     - clickhouse
