@@ -34,10 +34,14 @@ clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_config_folder}}:/etc/clickhouse-server/conf.d"
 clickhouse_docker_ulimits:
   - "nofile:262144:262144"
-clickhouse_docker_ports:
-    - "8123:8123"
-    - "9000:9000"
-    - "9009:9009"  
+clickhouse_docker_published_ports:
+  - "8123"
+  - "9000"
+  - "9009"
+clickhouse_docker_exposed_ports:
+  - 8123
+  - 9000
+  - 9009 
 ```
 
 ##### ClickHouse server settings
@@ -117,7 +121,7 @@ clickhouse_docker_user_profiles:
   remote_user: root
   vars:
     - clickhouse_docker_version: 1.1.54310
-    - clickhouse_docker_ports:
+    - clickhouse_docker_published_ports:
         - "8124"
         - "9001"
     - clickhouse_docker_config:
