@@ -23,6 +23,7 @@ This role requires Ansible 2.0 or higher.
 # host
 clickhouse_docker_host_data_folder: "/docker/clickhouse-data"
 clickhouse_docker_host_config_folder: "/docker/clickhouse-config"
+clickhouse_docker_host_logs_folder: "/docker/clickhouse-logs"
 
 # docker
 clickhouse_docker_version: latest
@@ -32,6 +33,7 @@ clickhouse_docker_container_name: clickhouse
 clickhouse_docker_bind_mounts:
   - "{{clickhouse_docker_host_data_folder}}:/var/lib/clickhouse"
   - "{{clickhouse_docker_host_config_folder}}:/etc/clickhouse-server/conf.d"
+  - "{{clickhouse_docker_host_logs_folder}}:/var/log/clickhouse-server"
 clickhouse_docker_ulimits:
   - "nofile:262144:262144"
 clickhouse_docker_published_ports:
@@ -41,7 +43,9 @@ clickhouse_docker_published_ports:
 clickhouse_docker_exposed_ports:
   - 8123
   - 9000
-  - 9009 
+  - 9009
+clickhouse_docker_log_driver: json-file
+clickhouse_docker_log_options:
 ```
 
 ##### ClickHouse server settings
@@ -128,6 +132,10 @@ clickhouse_docker_user_profiles:
         http_port:    8124
         tcp_port:     9001
         listen_host:  0.0.0.0
+    - clickhouse_docker_log_driver: syslog
+    - clickhouse_docker_log_options:
+        syslog-facility: local0
+        tag: "{{ clickhouse_docker_container_name }}"
   roles:
     - ansible-role-docker-clickhouse
 ```
