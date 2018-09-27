@@ -1,13 +1,13 @@
 # Ansible Role - ClickHouse Server for Docker
 [![Build Status](https://api.travis-ci.org/searchmetrics/ansible-role-docker-clickhouse.svg?branch=master)](https://travis-ci.org/searchmetrics/ansible-role-docker-clickhouse) [![Ansible Role](https://img.shields.io/ansible/role/21659.svg)](https://galaxy.ansible.com/searchmetrics/ansible-role-docker-clickhouse/)
 
-An ansible role to start and run a ClickHouse server docker container. 
+An ansible role to start and run a ClickHouse server docker container.
 You can change any server config setting for example:
 - ClickHouse server version
 - listen host (bind address)
 - ports
 - user profiles
-- user password 
+- user password
 - user quotas
 - remote server (ClickHouse cluster)
 - zookeeper host
@@ -84,13 +84,13 @@ clickhouse_docker_remote_servers:
 clickhouse_docker_zookeeper_hosts:
 
 clickhouse_docker_macros:
-```  
-  
+```
+
 ##### ClickHouse user profiles
 ```yml
-# ------------------------ 
+# ------------------------
 # default user settings:
-#   networks: 
+#   networks:
 #       - <ip>::/0</ip>
 #   profile: default
 #   quota:   default
@@ -100,11 +100,11 @@ clickhouse_docker_users:
     password: test
   ro_user:
     password: test
-    profile: readonly  
+    profile: readonly
 
 clickhouse_docker_user_profiles:
-  - readonly:
-    - readonly: 1
+  readonly:
+    readonly: 1
 ```
 
 ## Example Playbook
@@ -142,7 +142,7 @@ clickhouse_docker_user_profiles:
 
 ##### Server with custom users & profiles
 - Set a password for default ClickHouse user.
-- Define a read-only ClickHouse user "ro_user" with empty password, profile, quota and network. 
+- Define a read-only ClickHouse user "ro_user" with empty password, profile, quota and network.
 ```yml
 - hosts: localhost
   become: yes
@@ -173,8 +173,8 @@ clickhouse_docker_user_profiles:
 
 ##### Server with remote server config
 
-In the following example you can find a remote server definition with 3 cluster: 
-- "cluster-with-replicas" is a cluster with 2 shards and 2 replicas (1 replica per shard) 
+In the following example you can find a remote server definition with 3 cluster:
+- "cluster-with-replicas" is a cluster with 2 shards and 2 replicas (1 replica per shard)
 - "cluster-with-shards" is a cluster with 4 shards and no replication
 - "cluster-inter-rep-and-weight" is a cluster with 2 shards, 2 replicas, weight and interal_replication definition
 
@@ -196,7 +196,7 @@ In the following example you can find a remote server definition with 3 cluster:
           - shard:
               replica:
                 - { host: 172.1.1.3, port: 9000 }
-                - { host: 172.1.1.4, port: 9000 }    
+                - { host: 172.1.1.4, port: 9000 }
         cluster-with-shards:
           - shard: { replica: [ { host: 172.1.1.1, port: 9000 } ] }
           - shard: { replica: [ { host: 172.1.1.2, port: 9000 } ] }
@@ -208,15 +208,15 @@ In the following example you can find a remote server definition with 3 cluster:
               internal_replication: true
               replica:
                 - { host: 172.1.1.1, port: 9000 }
-                - { host: 172.1.1.2, port: 9000 }  
+                - { host: 172.1.1.2, port: 9000 }
           - shard:
               weight: 2
               internal_replication: true
               replica:
                 - { host: 172.1.1.3, port: 9000 }
-                - { host: 172.1.1.4, port: 9000 }                     
+                - { host: 172.1.1.4, port: 9000 }
   roles:
-    - ansible-role-docker-clickhouse                
+    - ansible-role-docker-clickhouse
 
 ```
 
@@ -231,7 +231,7 @@ In the following example you can find a remote server definition with 3 cluster:
         - { index: 2, ip: 172.1.1.12, port: 2181 }
         - { index: 3, ip: 172.1.1.13, port: 2181 }
   roles:
-    - ansible-role-docker-clickhouse        
+    - ansible-role-docker-clickhouse
 ```
 
 XML file in the docker container:\
@@ -270,7 +270,7 @@ $docker exec clickhouse-1 cat /etc/clickhouse-server/conf.d/zookeeper.xml
         replica: 1
         custom_value: data-center-1
   roles:
-    - ansible-role-docker-clickhouse        
+    - ansible-role-docker-clickhouse
 ```
 
 XML file in the docker container:\
@@ -290,7 +290,7 @@ $docker exec clickhouse-1 cat /etc/clickhouse-server/conf.d/macros.xml
 
 ##### Local ClickHouse Cluster with 3 nodes
 Ansible playbook yml file: [tests/test-local-cluster-with-zookeeper.yml](tests/test-local-cluster-with-zookeeper.yml)\
-A good example to run local config tests. 
+A good example to run local config tests.
 
 - starts a docker network
 - starts 3 ZooKeeper docker container
