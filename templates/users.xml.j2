@@ -7,7 +7,7 @@
     <profiles>
         {% for profile in clickhouse_docker_user_profiles %}
         <{{ profile }} replace="1">
-            {% for key, value in clickhouse_docker_user_profiles[profile].iteritems() %}
+            {% for key, value in clickhouse_docker_user_profiles[profile].items() %}
             <{{ key }}>{{ value }}</{{ key }}>
             {% endfor %}
         </{{ profile }}>
@@ -21,11 +21,11 @@
     <quotas>
         {% for quota in clickhouse_docker_user_quotas %}
         <{{ quota }} replace="1">
-            {% for key, value in clickhouse_docker_user_quotas[quota].iteritems() %}
+            {% for key, value in clickhouse_docker_user_quotas[quota].items() %}
             <{{ key }}>{{ value }}</{{ key }}>
             {% endfor %}
 
-            {% for key, value in clickhouse_docker_user_quota_defaults.iteritems() %}
+            {% for key, value in clickhouse_docker_user_quota_defaults.items() %}
             {% if clickhouse_docker_user_quotas[quota][key] is not defined %}
              <{{ key }}>{{ value }}</{{ key }}>
             {% endif %}
@@ -41,7 +41,7 @@
     {% for user in clickhouse_docker_users %}
 
         <{{ user }} replace="1">
-            {% for key, value in clickhouse_docker_users[user].iteritems() %}
+            {% for key, value in clickhouse_docker_users[user].items() %}
             {% if key != 'networks' %}
             <{{ key }}>{{ value }}</{{ key }}>
             {% endif %}
