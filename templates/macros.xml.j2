@@ -5,7 +5,7 @@
 {% if clickhouse_docker_macros is defined and clickhouse_docker_macros != None %}
 <macros replace="1">
 
-    {% for key, value in clickhouse_docker_macros.iteritems() %}
+    {% for key, value in clickhouse_docker_macros.items() %}
     <{{ key }}>{{ value }}</{{ key }}>
     {% endfor %}
 
