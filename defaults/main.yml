@@ -21,9 +21,9 @@ clickhouse_docker_published_ports:
   - "9000"
   - "9009"
 clickhouse_docker_exposed_ports:
-  - 8123
-  - 9000
-  - 9009
+  - "8123"
+  - "9000"
+  - "9009"
 clickhouse_docker_log_driver: json-file
 clickhouse_docker_log_options:
 

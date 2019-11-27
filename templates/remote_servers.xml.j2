@@ -10,11 +10,11 @@
 
             {% for shard in clickhouse_docker_remote_servers[cluster] %}
                 <shard>
-                {% for key, value in shard['shard'].iteritems() %}
+                {% for key, value in shard['shard'].items() %}
                     {% if key == 'replica' %}
                     {% for replica in shard['shard']['replica'] %}
                     <replica>
-                        {% for r_key, r_value in replica.iteritems() %}
+                        {% for r_key, r_value in replica.items() %}
                         <{{ r_key }}>{{ r_value }}</{{ r_key }}>
                         {% endfor %}
                     </replica>
