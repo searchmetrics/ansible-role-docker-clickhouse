@@ -41,9 +41,7 @@ install:
   - sudo pip install docker-py
 
   # Check ansible version
-  - ansible --version
-
-  
+  - ansible --version  
 
 script:
   #1 test default container
