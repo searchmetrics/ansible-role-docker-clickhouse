@@ -5,7 +5,7 @@
   template:
     src: config.xml.j2
     dest: "{{ clickhouse_docker_host_config_folder }}/config.xml"
-    mode: 0644
+    mode: "0644"
   when: clickhouse_docker_bind_mounts != [] or clickhouse_docker_bind_mounts is undefined
 
 - name: Create ClickHouse custom user profile config
@@ -13,7 +13,7 @@
   template:
     src: users.xml.j2
     dest: "{{ clickhouse_docker_host_config_folder }}/users.xml"
-    mode: 0644
+    mode: "0644"
   when: clickhouse_docker_bind_mounts != [] or clickhouse_docker_bind_mounts is undefined
 
 - name: Create ClickHouse remote server config
@@ -21,7 +21,7 @@
   template:
     src: remote_servers.xml.j2
     dest: "{{ clickhouse_docker_host_config_folder }}/remote_servers.xml"
-    mode: 0644
+    mode: "0644"
   when: clickhouse_docker_bind_mounts != [] or clickhouse_docker_bind_mounts is undefined
 
 - name: Create ClickHouse zookeeper hosts config
@@ -29,7 +29,7 @@
   template:
     src: zookeeper.xml.j2
     dest: "{{ clickhouse_docker_host_config_folder }}/zookeeper.xml"
-    mode: 0644
+    mode: "0644"
   when: clickhouse_docker_bind_mounts != [] or clickhouse_docker_bind_mounts is undefined
 
 - name: Create ClickHouse server macros config
@@ -37,5 +37,5 @@
   template:
     src: macros.xml.j2
     dest: "{{ clickhouse_docker_host_config_folder }}/macros.xml"
-    mode: 0644
+    mode: "0644"
   when: clickhouse_docker_bind_mounts != [] or clickhouse_docker_bind_mounts is undefined
